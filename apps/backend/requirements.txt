@@ -1,0 +1,18 @@
+# Core frameworks
+fastapi
+uvicorn
+
+# HTTP and async communication
+httpx
+
+# Firebase Admin SDK
+firebase-admin
+
+# Request parsing and validation
+pydantic
+
+# Environment config (optional, but useful)
+python-dotenv
+
+# RunPod serverless SDK (only needed in serverless mode)
+runpod
