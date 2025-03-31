@@ -31,7 +31,7 @@ jobs:
                 -F context=@context.tar.gz \
                 -F config=@config.json \
                 -F type=application/json \
-                -F DESTINATION_IMAGE=ghcr.io/${{ github.repository }}:latest)
+                -F DESTINATION_IMAGE=ghcr.io/abc123:latest)
           
               CODE=$(echo "$RESPONSE" | tail -n1)
               echo "RunPod responded with status: $CODE"
