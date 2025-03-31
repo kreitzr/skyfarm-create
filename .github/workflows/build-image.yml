@@ -19,9 +19,10 @@ jobs:
 
       - name: Create GHCR config.json
         run: |
-          echo '{"auths":{"ghcr.io":{"auth":"'$(echo -n "${{ secrets.GHCR_USERNAME }}:${{ secrets.GHCR_TOKEN }}" | base64)'"}}}' > config.json
-          cat config.json
-
+            AUTH=$(echo -n "${{ secrets.GHCR_USERNAME }}:${{ secrets.GHCR_TOKEN }}" | base64)
+            echo "{\"auths\":{\"ghcr.io\":{\"auth\":\"$AUTH\"}}}" > config.json
+            cat config.json
+        
       - name: Call RunPod serverless endpoint
         run: |
             RESPONSE=$(curl -s -w "%{http_code}" -o response.json \
