@@ -27,7 +27,7 @@ jobs:
         run: |
               RESPONSE=$(curl -s -w "\n%{http_code}" -o response.json \
                 -X POST https://api.runpod.ai/v2/${{ secrets.RUNPOD_ENDPOINT_ID }}/run \
-                -H "Authorization: Bearer ${{ secrets.RUNPOD_API_KEY }}" \
+                -H "Authorization: Bearer abc123" \
                 -F context=@context.tar.gz \
                 -F config=@config.json \
                 -F type=application/json \
