@@ -1,0 +1,44 @@
+name: Generate RunPod input payload
+
+on:
+  workflow_dispatch:
+
+jobs:
+  generate-files:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Generate config.json
+        run: |
+          AUTH=$(echo -n "${{ secrets.GHCR_USERNAME }}:${{ secrets.GHCR_TOKEN }}" | base64)
+          echo "{\"auths\":{\"ghcr.io\":{\"auth\":\"$AUTH\"}}}" > config.json
+
+      - name: Package context.tar.gz
+        run: |
+          mkdir context
+          rsync -a --exclude=context . context/
+          tar -czf context.tar.gz -C context .
+
+      - name: Commit and push files
+        run: |
+          git config user.name "gh-actions"
+          git config user.email "actions@github.com"
+          git add config.json context.tar.gz
+          git commit -m "Add generated config and context"
+          git push
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Output RunPod input.json
+        run: |
+          echo '{
+            "input": {
+              "config_url": "https://raw.githubusercontent.com/kreitzr/skyfarm-create/main/config.json",
+              "context_url": "https://raw.githubusercontent.com/kreitzr/skyfarm-create/main/context.tar.gz",
+              "destination_image": "ghcr.io/kreitzr/skyfarm-create:latest"
+            }
+          }' > input.json
+          cat input.json
