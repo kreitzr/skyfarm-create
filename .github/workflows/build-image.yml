@@ -13,8 +13,10 @@ jobs:
 
       - name: Create build context tarball
         run: |
-          tar --exclude=context.tar.gz -czf context.tar.gz .
-      
+          mkdir context
+          rsync -a --exclude=context . context/
+          tar -czf context.tar.gz -C context .
+            
       - name: Create GHCR config.json
         run: |
           echo "{\"auths\":{\"ghcr.io\":{\"auth\":\"$(echo -n '${{ secrets.GHCR_USERNAME }}:${{ secrets.GHCR_TOKEN }}' | base64)\"}}}" > config.json
