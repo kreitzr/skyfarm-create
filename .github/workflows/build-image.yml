@@ -29,7 +29,7 @@ jobs:
                 -X POST https://api.runpod.ai/v2/${{ secrets.RUNPOD_ENDPOINT_ID }}/run \
                 -H "Authorization: Bearer ${{ secrets.RUNPOD_API_KEY }}" \
                 -F context=@context.tar.gz \
-                -F "config=@config.json;type=application/json" \
+                -F config=@config.json \
                 -F DESTINATION_IMAGE=ghcr.io/${{ github.repository }}:latest)
           
               CODE=$(echo "$RESPONSE" | tail -n1)
@@ -43,6 +43,6 @@ jobs:
           
               echo "RunPod success response:"
               cat response.json
-                                                                                      
+                                                                                                
       - name: Cleanup
         run: rm -rf context context.tar.gz config.json response.json
