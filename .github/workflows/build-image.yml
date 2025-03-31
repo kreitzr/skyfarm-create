@@ -23,7 +23,7 @@ jobs:
 
       - name: Call RunPod serverless endpoint
         run: |
-            curl -i -v -X POST https://api.runpod.ai/v2/<your-endpoint-id>/run \
+            curl -i -v -X POST https://api.runpod.ai/v2/${{ secrets.RUNPOD_ENDPOINT_ID }}/run \
                 -F context=@context.tar.gz \
                 -F config=@config.json \
                 -F DESTINATION_IMAGE=ghcr.io/${{ github.repository }}:latest
