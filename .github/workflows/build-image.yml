@@ -17,12 +17,11 @@ jobs:
           rsync -a --exclude=context . context/
           tar -czf context.tar.gz -C context .
 
-      - name: Create GHCR config.json
+      - name: Create GHCR config.json (hardcoded)
         run: |
-            AUTH=$(echo -n "${{ secrets.GHCR_USERNAME }}:${{ secrets.GHCR_TOKEN }}" | base64)
-            echo "{\"auths\":{\"ghcr.io\":{\"auth\":\"$AUTH\"}}}" > config.json
+            echo '{"auths":{"ghcr.io":{"auth":"eW91cl91c2VybmFtZTpnaXRodWJfdG9rZW4="}}}' > config.json
             cat config.json
-                
+                        
       - name: Call RunPod serverless endpoint
         run: |
               RESPONSE=$(curl -s -w "%{http_code}" -o response.json \
