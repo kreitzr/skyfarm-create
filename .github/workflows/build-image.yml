@@ -27,8 +27,7 @@ jobs:
         run: |
               RESPONSE=$(curl -s -w "\n%{http_code}" -o response.json \
                 -X POST https://api.runpod.ai/v2/${{ secrets.RUNPOD_ENDPOINT_ID }}/run \
-                -H "Authorization: Bearer ${{ secrets.RUNPOD_API_KEY }}" \
-                -F DESTINATION_IMAGE=ghcr.io/${{ github.repository }}:latest)
+                -H "Authorization: Bearer ${{ secrets.RUNPOD_API_KEY }}"
           
               CODE=$(echo "$RESPONSE" | tail -n1)
               echo "RunPod responded with status: $CODE"
