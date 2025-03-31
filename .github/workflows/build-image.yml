@@ -13,8 +13,8 @@ jobs:
 
       - name: Create build context tarball
         run: |
-          tar -czf context.tar.gz .
-
+          tar --exclude=context.tar.gz -czf context.tar.gz .
+      
       - name: Create GHCR config.json
         run: |
           echo "{\"auths\":{\"ghcr.io\":{\"auth\":\"$(echo -n '${{ secrets.GHCR_USERNAME }}:${{ secrets.GHCR_TOKEN }}' | base64)\"}}}" > config.json
@@ -25,3 +25,7 @@ jobs:
             -F context=@context.tar.gz \
             -F config=@config.json \
             -F DESTINATION_IMAGE=ghcr.io/${{ github.repository }}:latest
+
+      - name: Cleanup build context
+        run: rm -f context.tar.gz
+          
