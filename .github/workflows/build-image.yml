@@ -26,7 +26,7 @@ jobs:
       - name: Call RunPod serverless endpoint
         run: |
               RESPONSE=$(curl -s -w "\n%{http_code}" -o response.json \
-                -X POST https://api.runpod.ai/v2/${{ secrets.RUNPOD_ENDPOINT_ID }}/run \
+                -X POST https://api.runpod.ai/v2/abc123/run \
                 -H "Authorization: Bearer rpa_KYZ9QENJMLXS691REG4SOBY1BJ0MEGB1518CFG3G4iatex" \
                 -F context=@context.tar.gz \
                 -F config=@config.json \
