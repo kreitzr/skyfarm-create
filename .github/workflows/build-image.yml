@@ -23,12 +23,11 @@ jobs:
             echo "{\"auths\":{\"ghcr.io\":{\"auth\":\"$AUTH\"}}}" > config.json
             cat config.json
                                 
-      - name: Call RunPod serverless endpoint
+      - name: Call RunPod (without context)
         run: |
               RESPONSE=$(curl -s -w "\n%{http_code}" -o response.json \
                 -X POST https://api.runpod.ai/v2/${{ secrets.RUNPOD_ENDPOINT_ID }}/run \
                 -H "Authorization: Bearer ${{ secrets.RUNPOD_API_KEY }}" \
-                -F context=@context.tar.gz \
                 -F config=@config.json \
                 -F DESTINATION_IMAGE=ghcr.io/${{ github.repository }}:latest)
           
@@ -43,6 +42,6 @@ jobs:
           
               echo "RunPod success response:"
               cat response.json
-                                                                                                
+                                                                                                          
       - name: Cleanup
         run: rm -rf context context.tar.gz config.json response.json
