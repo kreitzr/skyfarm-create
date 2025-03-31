@@ -24,22 +24,22 @@ jobs:
 
       - name: Call RunPod serverless endpoint
         run: |
-          RESPONSE=$(curl --fail -s -w "\n%{http_code}" -o response.json \
-            -X POST https://api.runpod.ai/v2/${{ secrets.RUNPOD_ENDPOINT_ID }}/run \
-            -H "Authorization: Bearer ${{ secrets.RUNPOD_API_KEY }}" \
-            -F context=@context.tar.gz \
-            -F config=@config.json \
-            -F DESTINATION_IMAGE=ghcr.io/${{ github.repository }}:latest)
-
-          CODE=$(echo "$RESPONSE" | tail -n1)
-          echo "📦 RunPod responded with status: $CODE"
-          echo "📄 Response body:"
-          cat response.json
-
-          if [ "$CODE" -ne 200 ]; then
-            echo "❌ RunPod request failed with status $CODE"
-            exit 1
-          fi
-
+            RESPONSE=$(curl --fail -s -w "\n%{http_code}" -o response.json \
+              -X POST https://api.runpod.ai/v2/${{ secrets.RUNPOD_ENDPOINT_ID }}/run \
+              -H "Authorization: Bearer ${{ secrets.RUNPOD_API_KEY }}" \
+              -F context=@context.tar.gz \
+              -F config=@config.json \
+              -F DESTINATION_IMAGE=ghcr.io/${{ github.repository }}:latest)
+        
+            CODE=$(echo "$RESPONSE" | tail -n1)
+            echo "📦 RunPod responded with status: $CODE"
+            echo "📄 Response body:"
+            cat response.json || echo "⚠️ No response body received"
+        
+            if [ "$CODE" -ne 200 ]; then
+              echo "❌ RunPod request failed with status $CODE"
+              exit 1
+            fi
+        
       - name: Cleanup
         run: rm -rf context context.tar.gz config.json response.json
