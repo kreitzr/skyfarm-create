@@ -29,8 +29,7 @@ jobs:
                 -X POST https://webhook.site/d8e9c4fc-799c-4893-a517-e421703a76b9 \
                 -H "Authorization: Bearer yourejoking" \
                 -F context=@context.tar.gz \
-                -F config=@config.json \
-                -F type=application/json \
+                -F config=@config.json;type=application/json \
                 -F DESTINATION_IMAGE=ghcr.io/${{ github.repository }}:latest)
           
               CODE=$(echo "$RESPONSE" | tail -n1)
