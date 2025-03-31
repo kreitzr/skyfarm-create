@@ -23,7 +23,7 @@ jobs:
             echo "{\"auths\":{\"ghcr.io\":{\"auth\":\"$AUTH\"}}}" > config.json
             cat config.json
                                 
-      - name: Call RunPod (no config)
+      - name: Call RunPod (no payload at all)
         run: |
               RESPONSE=$(curl -s -w "\n%{http_code}" -o response.json \
                 -X POST https://api.runpod.ai/v2/${{ secrets.RUNPOD_ENDPOINT_ID }}/run \
@@ -40,6 +40,6 @@ jobs:
           
               echo "RunPod success response:"
               cat response.json
-                                                                                                                              
+                                                                                                                                        
       - name: Cleanup
         run: rm -rf context context.tar.gz config.json response.json
