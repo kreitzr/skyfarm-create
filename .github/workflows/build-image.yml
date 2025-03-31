@@ -17,29 +17,35 @@ jobs:
           rsync -a --exclude=context . context/
           tar -czf context.tar.gz -C context .
 
-      - name: Create GHCR config.json (hardcoded)
+      - name: Create GHCR config.json
         run: |
-            echo '{"auths":{"ghcr.io":{"auth":"eW91cl91c2VybmFtZTpnaXRodWJfdG9rZW4="}}}' > config.json
+            AUTH=$(echo -n "${{ secrets.GHCR_USERNAME }}:${{ secrets.GHCR_TOKEN }}" | base64)
+            echo "{\"auths\":{\"ghcr.io\":{\"auth\":\"$AUTH\"}}}" > config.json
             cat config.json
-                        
+                                
       - name: Call RunPod serverless endpoint
         run: |
-              RESPONSE=$(curl -s -w "%{http_code}" -o response.json \
+              RESPONSE=$(bash <<'EOF'
+              curl -s -w "\n%{http_code}" -o response.json \
                 -X POST https://api.runpod.ai/v2/${{ secrets.RUNPOD_ENDPOINT_ID }}/run \
                 -H "Authorization: Bearer ${{ secrets.RUNPOD_API_KEY }}" \
                 -F context=@context.tar.gz \
                 -F config=@config.json\\;type=application/json \
-                -F DESTINATION_IMAGE=ghcr.io/${{ github.repository }}:latest)
+                -F DESTINATION_IMAGE=ghcr.io/${{ github.repository }}:latest
+              EOF
+              )
           
-              CODE=$(echo "$RESPONSE" | tail -c 4)
+              CODE=$(echo "$RESPONSE" | tail -n1)
               echo "📦 RunPod responded with status: $CODE"
               echo "📄 Response body:"
               cat response.json || echo "⚠️ No response body received"
           
               if [ "$CODE" -ne 200 ]; then
                 echo "❌ RunPod request failed with status $CODE"
+                echo "💥 Error details from RunPod:"
+                cat response.json
                 exit 1
               fi
-                                    
+                                                        
       - name: Cleanup
         run: rm -rf context context.tar.gz config.json response.json
