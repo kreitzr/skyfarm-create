@@ -16,3 +16,11 @@ python-dotenv
 
 # RunPod serverless SDK (only needed in serverless mode)
 runpod
+
+# Testing dependencies
+pytest
+pytest-asyncio
+
+# Dev tools
+ruff
+black
