@@ -26,12 +26,11 @@ jobs:
       - name: Call RunPod serverless endpoint
         run: |
               RESPONSE=$(curl -s -w "\n%{http_code}" -o response.json \
-                -X POST https://api.runpod.ai/v2/abc123/run \
-                -H "Authorization: Bearer rpa_KYZ9QENJMLXS691REG4SOBY1BJ0MEGB1518CFG3G4iatex" \
+                -X POST https://api.runpod.ai/v2/${{ secrets.RUNPOD_ENDPOINT_ID }}/run \
+                -H "Authorization: Bearer ${{ secrets.RUNPOD_API_KEY }}" \
                 -F context=@context.tar.gz \
-                -F config=@config.json \
-                -F type=application/json \
-                -F DESTINATION_IMAGE=ghcr.io/abctestme:latest)
+                -F config=@config.json\\;type=application/json \
+                -F DESTINATION_IMAGE=ghcr.io/${{ github.repository }}:latest)
           
               CODE=$(echo "$RESPONSE" | tail -n1)
               echo "RunPod responded with status: $CODE"
@@ -44,6 +43,6 @@ jobs:
           
               echo "RunPod success response:"
               cat response.json
-                                                                  
+                                                                            
       - name: Cleanup
         run: rm -rf context context.tar.gz config.json response.json
