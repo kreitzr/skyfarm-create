@@ -61,11 +61,11 @@ VOLUME ["/workspace"]
 # Expose ComfyUI web interface
 EXPOSE 8188
 
-# Copy backend code and install dependencies
-COPY apps/backend /app/backend
-COPY apps/backend/requirements.txt /app/backend/requirements.txt
-COPY apps/backend/firebase-adminsdk.json /app/backend/firebase-adminsdk.json
-RUN pip install -r /app/backend/requirements.txt
+# # Copy backend code and install dependencies
+# COPY apps/backend /app/backend
+# COPY apps/backend/requirements.txt /app/backend/requirements.txt
+# COPY apps/backend/firebase-adminsdk.json /app/backend/firebase-adminsdk.json
+# RUN pip install -r /app/backend/requirements.txt
 
 # Launch!
 CMD ["/app/start.sh"]

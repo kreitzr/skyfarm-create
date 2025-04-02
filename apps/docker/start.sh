@@ -16,9 +16,9 @@ ln -s /workspace/output "$COMFY_DIR/output"
 cd "$COMFY_DIR"
 python3 main.py --listen 0.0.0.0 --port 8188 &
 
-# Optional wait to ensure Comfy is up
-sleep 5
+# # Optional wait to ensure Comfy is up
+# sleep 5
 
-# Start FastAPI backend
-cd "$BACKEND_DIR"
-uvicorn local_dev_server:app --host 0.0.0.0 --port 8000
+# # Start FastAPI backend
+# cd "$BACKEND_DIR"
+# uvicorn local_dev_server:app --host 0.0.0.0 --port 8000
