@@ -15,6 +15,7 @@ ln -s /workspace/output "$COMFY_DIR/output"
 # Start ComfyUI in background
 cd "$COMFY_DIR"
 python3 main.py --listen 0.0.0.0 --port 8188
+echo "[RP] [URL] http://0.0.0.0:8188"
 
 # # Optional wait to ensure Comfy is up
 # sleep 5
