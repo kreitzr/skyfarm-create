@@ -26,7 +26,8 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
-          context: .
+          context: ./apps/docker
+          file: ./apps/docker/Dockerfile
           push: true
           tags: ghcr.io/kreitzr/skyfarm-create:latest
           cache-from: type=gha
