@@ -4,8 +4,8 @@ ENV DEBIAN_FRONTEND=noninteractive
 WORKDIR /app
 
 # Copy version control files
-COPY apps/docker/.comfy-version /app/.comfy-version
-COPY apps/docker/.node-versions /app/.node-versions
+COPY .comfy-version /app/.comfy-version
+COPY .node-versions /app/.node-versions
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
