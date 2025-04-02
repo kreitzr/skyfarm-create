@@ -52,7 +52,7 @@ done
 # RUN python3 -c "import sys; sys.path.insert(0, '/app/ComfyUI/custom_nodes/ComfyUI-Manager'); import comfy_registry.registry as r; r.fetch_all(force=True)"
 
 # Add the launch script
-COPY apps/docker/start.sh /app/start.sh
+COPY start.sh /app/start.sh
 RUN chmod +x /app/start.sh
 
 # Declare workspace volume
